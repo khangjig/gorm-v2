@@ -30,3 +30,12 @@ func ErrInvalidInput(err error) MyError {
 		Message:   "Invalid input",
 	}
 }
+
+func ErrDeleteByID(err error) MyError {
+	return MyError{
+		Raw:       err,
+		HTTPCode:  http.StatusInternalServerError,
+		ErrorCode: 100003,
+		Message:   "ErrDeleteByID error",
+	}
+}

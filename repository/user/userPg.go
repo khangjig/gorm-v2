@@ -87,3 +87,21 @@ func (p pgUserRepository) Create(ctx context.Context, obj *model.User) error {
 func (p pgUserRepository) ExecuteSQL(ctx context.Context, query string) error {
 	return p.getDB(ctx).Exec(query).Error
 }
+
+func (p pgUserRepository) Delete(ctx context.Context, id int64, hard bool) error {
+	tx := p.getDB(ctx).Begin()
+
+	if hard {
+		tx = tx.Unscoped()
+	}
+
+	if err := tx.Delete(&model.User{}, id).Error; err != nil {
+		tx.Rollback()
+
+		return errors.Wrap(err, "Delete fail")
+	}
+
+	err := tx.Commit().Error
+
+	return errors.Wrap(err, "Commit fail")
+}

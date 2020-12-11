@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-
 	"gorm-v2/repository/user"
+
 	"gorm.io/gorm"
 )
 

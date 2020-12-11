@@ -2,7 +2,6 @@ package user
 
 import (
 	"context"
-
 	"gorm-v2/model"
 )
 
@@ -15,4 +14,5 @@ type Repository interface {
 	) ([]model.User, int64)
 	Create(ctx context.Context, obj *model.User) error
 	ExecuteSQL(ctx context.Context, query string) error
+	Delete(ctx context.Context, id int64, hard bool) error
 }

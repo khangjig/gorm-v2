@@ -53,3 +53,25 @@ func (r *Route) getTestByID(c echo.Context) error {
 
 	return util.Response.Success(c, user)
 }
+
+func (r *Route) deleteTestByID(c echo.Context) error {
+	var (
+		ctx     = &util.CustomEchoContext{Context: c}
+		idStr   = c.Param("id")
+		myError = myerror.MyError{}
+	)
+
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		return util.Response.Error(c, myerror.ErrInvalidParam(err))
+	}
+
+	err = r.useCase.User.DeleteByID(ctx, id)
+	if err != nil {
+		_ = errors.As(err, &myError)
+
+		return util.Response.Error(c, myError)
+	}
+
+	return util.Response.Success(c, nil)
+}

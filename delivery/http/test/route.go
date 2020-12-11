@@ -16,4 +16,5 @@ func Init(group *echo.Group, useCase *usecase.UseCase) {
 	test := group.Group("/test")
 	test.GET("", r.getAll)
 	test.GET("/:id", r.getTestByID)
+	test.DELETE("/:id", r.deleteTestByID)
 }
