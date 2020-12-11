@@ -1,6 +1,15 @@
 name: reviewdog
 on: [pull_request]
 jobs:
+  go-consistent:
+    name: runner / go-consistent
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+      - name: go-consistent
+        uses: go-consistent/action-golangci-lint@v1
+
   golangci-lint:
     name: runner / golangci-lint
     runs-on: ubuntu-latest
