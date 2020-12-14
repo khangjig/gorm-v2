@@ -58,11 +58,18 @@ func (p pgUserRepository) GetAll(ctx context.Context,
 		db = db.Order(order[i])
 	}
 
-	var response []model.User
+	var (
+		response []model.User
+		offset   = 0
+	)
 
 	total := db.Find(&response).RowsAffected
 
-	err := db.Limit(paginator.Limit).Offset(paginator.Page).Find(&response).Error
+	if paginator.Page != 1 {
+		offset = paginator.Limit * (paginator.Page - 1)
+	}
+
+	err := db.Limit(paginator.Limit).Offset(offset).Find(&response).Error
 	if err != nil {
 		// Handle log ...
 	}
