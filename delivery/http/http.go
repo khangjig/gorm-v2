@@ -2,12 +2,12 @@ package http
 
 import (
 	"fmt"
+	"gorm-v2/delivery/http/socket"
 	"gorm-v2/delivery/http/test"
 	"gorm-v2/usecase"
 	"log"
 	"net/http"
 	"os"
-	"strings"
 
 	sentryEcho "github.com/getsentry/sentry-go/echo"
 	"github.com/labstack/echo/v4"
@@ -45,9 +45,7 @@ func NewHTTPHandler(useCase *usecase.UseCase) *echo.Echo {
 	}))
 
 	e.Use(middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
-		if !strings.Contains(c.Path(), "files") &&
-			!strings.Contains(c.Path(), "avatar") &&
-			c.Request().URL.RequestURI() != "/health_check" {
+		if c.Request().URL.RequestURI() != "/health_check" {
 			request := fmt.Sprintf("%s", reqBody)
 
 			if len(request) > 0 {
@@ -62,7 +60,7 @@ func NewHTTPHandler(useCase *usecase.UseCase) *echo.Echo {
 	})
 
 	api := e.Group("/api")
-
+	socket.Init(api, useCase)
 	test.Init(api, useCase)
 
 	return e
