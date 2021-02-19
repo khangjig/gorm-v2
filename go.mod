@@ -3,7 +3,7 @@ module gorm-v2
 go 1.15
 
 require (
-	github.com/getsentry/sentry-go v0.3.1
+	github.com/getsentry/sentry-go v0.10.0
 	github.com/golang-migrate/migrate/v4 v4.14.1
 	github.com/joho/godotenv v1.3.0
 	github.com/kelseyhightower/envconfig v1.4.0
